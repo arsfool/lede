@@ -77,6 +77,12 @@ jobs:
         uses: P3TERX/debugger-action@master
         if: env.SSH_ACTIONS == 'true'
 
+      - name: 涡轮增雕进程
+        run: |
+          cd package
+          mkdir openwrt-packages
+          cd openwrt-packages
+          git clone https://github.com/openwrt-develop/luci-theme-atmaterial.git
 
       - name: Costom configure file
         run: |
@@ -96,6 +102,11 @@ jobs:
           CONFIG_TARGET_ramips_mt7621_DEVICE_NETGEAR_R6220=y
           EOF
 
+          # LuCI主题:
+          cat >> .config <<EOF
+          CONFIG_PACKAGE_luci-theme-argon=y
+          CONFIG_PACKAGE_luci-theme-atmaterial=y
+          EOF
 
           # 常用LuCI插件选择: 添加外面的主题和应用，包是通过diy.sh 脚本进行下载。
           cat >> .config <<EOF
